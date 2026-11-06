@@ -20,7 +20,7 @@
 Üdvözöljük a rendszerünkben!
 $ S.Z.S Access
 
-Milyen járművel érkezett? (leállítás -> 0 ; autó -> 1 ; gyalog -> 2)
+Hogyan érkezett? (leállítás -> 0 ; autó -> 1 ; gyalog -> 2)
 
 | 1 
 
