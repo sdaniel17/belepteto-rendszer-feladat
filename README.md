@@ -1,6 +1,6 @@
 # S.Z.S Access System
 
-** Fejlesztők - Seres Dániel, Szabó Gergő
+*Fejlesztők - Seres Dániel, Szabó Gergő*
 
 ---
 
@@ -20,7 +20,26 @@
 Üdvözöljük a rendszerünkben!
 $ S.Z.S Access
 
-Milyen járművel érkezett?
+Milyen járművel érkezett? (leállítás -> 0 ; autó -> 1 ; gyalog -> 2)
+
+| 1 
+
+Írja be a nevét!
+
+| Tóth Tamás
+
+Írja be az igazolványszámát! (Helyes formátum: IG-00000000)
+
+| IG-01100101
+
+Írja be autója rendszámát! (Helyes formátumok: AAA-999 ; AA-AA-999)
+
+| HZT-756
+
+Írja be autója típusát! (Helyes formátum: [Autó márkája] [Autó típusa])
+
+| Audi R8
 
 
+Adatok rögzítve!
 ```
