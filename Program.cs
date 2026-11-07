@@ -27,14 +27,15 @@ bool ig_szam_ellenorzes(string ig_szam)
         return false;
     }
 
-    if (! (ig_szam[0] == 'I' && ig_szam[1] == 'G' && ig_szam[2] == '-') )
+    if (!(ig_szam[0] == 'I' && ig_szam[1] == 'G' && ig_szam[2] == '-'))
     {
         return false;
     }
-    
+
     for (int i = 3; i < ig_szam.Length; i++)
     {
-        if (! char.IsDigit(ig_szam[i])){
+        if (!char.IsDigit(ig_szam[i]))
+        {
             return false;
         }
     }
@@ -67,7 +68,7 @@ bool rendszam_ellenorzes(string rendszam)
 
     rendszam = rendszam.ToUpper();
 
-    
+
     if (rendszam.Length == 7 &&
         char.IsLetter(rendszam[0]) &&
         char.IsLetter(rendszam[1]) &&
@@ -80,7 +81,7 @@ bool rendszam_ellenorzes(string rendszam)
         return true;
     }
 
-    
+
     if (rendszam.Length == 9 &&
         char.IsLetter(rendszam[0]) &&
         char.IsLetter(rendszam[1]) &&
@@ -123,12 +124,12 @@ List<string> gyalogos_belepes()
         ig_szam = Console.ReadLine();
     }
 
-    return new List<string>() {nev,ig_szam};
+    return new List<string>() { nev, ig_szam };
 }
 
 List<string> autos_bekeres()
 {
-    List<string> adatok=gyalogos_belepes();
+    List<string> adatok = gyalogos_belepes();
     string nev = adatok[0];
     string ig_szam = adatok[1];
     Console.WriteLine("Írja be autója rendszámát! (Helyes formátumok: AAA-999 ; AA-AA-999)");
@@ -141,10 +142,40 @@ List<string> autos_bekeres()
 
 
     Console.WriteLine("Írja be autója típusát! (Helyes formátum: [Autó márkája] [Autó típusa])");
-    string autotipus= Console.ReadLine();
+    string autotipus = Console.ReadLine();
 
-    return new List<string>() {nev, ig_szam, rendszam, autotipus};
+    return new List<string>() { nev, ig_szam, rendszam, autotipus };
 }
+
+
+void file_irasa(List<string> adatok)
+{
+    if (File.Exists("log.txt"))
+    {
+        File.AppendAllText("log.txt", DateTime.Now.ToString());
+        foreach (string nev in adatok)
+        {
+            File.AppendAllText("log.txt", " | " + nev);
+
+        }
+        File.AppendAllText("log.txt", "\n");
+    }
+    else
+    {
+        using StreamWriter iro = new("log.txt");
+        File.AppendAllText("log.txt", DateTime.Now.ToString());
+        foreach (string nev in adatok)
+        {
+
+            File.AppendAllText("log.txt", " | " + nev);
+
+        }
+        File.AppendAllText("log.txt", "\n");
+    }
+
+
+}
+
 
 
 
@@ -157,22 +188,22 @@ while (true)
     {
         leallitas();
     }
-    else if (mivel_jottel == "1")
-    {
-        List<string> xxx = gyalogos_belepes();
-        Console.WriteLine("Adatok rögzítve!");
-        Console.WriteLine(xxx[0]);
-        Console.WriteLine(xxx[1]);
-
-    }
     else if (mivel_jottel == "2")
     {
-        List<string> autosadatok = autos_bekeres();
+        List<string> gyalogos_adatok = gyalogos_belepes();
+        file_irasa(gyalogos_adatok);
         Console.WriteLine("Adatok rögzítve!");
-        Console.WriteLine(autosadatok[0]);
-        Console.WriteLine(autosadatok[1]);
-        Console.WriteLine(autosadatok[2]);
-        Console.WriteLine(autosadatok[3]);
+
+
     }
+    else if (mivel_jottel == "1")
+    {
+        List<string> autos_adatok = autos_bekeres();
+
+        file_irasa(autos_adatok);
+        Console.WriteLine("Adatok rögzítve!");
+        
+    }
+
 
 }
