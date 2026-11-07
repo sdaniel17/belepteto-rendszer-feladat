@@ -13,6 +13,8 @@ string mivel_jott()
     return x;
 }
 
+
+
 void leallitas()
 {
     Environment.Exit(0);
@@ -58,6 +60,46 @@ bool nev_ellenorzes(string nev)
     return true;
 }
 
+bool rendszam_ellenorzes(string rendszam)
+{
+    if (rendszam == null)
+        return false;
+
+    rendszam = rendszam.ToUpper();
+
+    
+    if (rendszam.Length == 7 &&
+        char.IsLetter(rendszam[0]) &&
+        char.IsLetter(rendszam[1]) &&
+        char.IsLetter(rendszam[2]) &&
+        rendszam[3] == '-' &&
+        char.IsDigit(rendszam[4]) &&
+        char.IsDigit(rendszam[5]) &&
+        char.IsDigit(rendszam[6]))
+    {
+        return true;
+    }
+
+    
+    if (rendszam.Length == 9 &&
+        char.IsLetter(rendszam[0]) &&
+        char.IsLetter(rendszam[1]) &&
+        rendszam[2] == '-' &&
+        char.IsLetter(rendszam[3]) &&
+        char.IsLetter(rendszam[4]) &&
+        rendszam[5] == '-' &&
+        char.IsDigit(rendszam[6]) &&
+        char.IsDigit(rendszam[7]) &&
+        char.IsDigit(rendszam[8]))
+    {
+        return true;
+    }
+
+    return false;
+}
+
+
+
 
 List<string> gyalogos_belepes()
 {
@@ -84,6 +126,28 @@ List<string> gyalogos_belepes()
     return new List<string>() {nev,ig_szam};
 }
 
+List<string> autos_bekeres()
+{
+    List<string> adatok=gyalogos_belepes();
+    string nev = adatok[0];
+    string ig_szam = adatok[1];
+    Console.WriteLine("Írja be autója rendszámát! (Helyes formátumok: AAA-999 ; AA-AA-999)");
+    string rendszam = Console.ReadLine();
+    while (!rendszam_ellenorzes(rendszam))
+    {
+        Console.WriteLine("Helytelen rendszám! Helyes formátumok: AAA-999 ; AA-AA-999");
+        rendszam = Console.ReadLine();
+    }
+
+
+    Console.WriteLine("Írja be autója típusát! (Helyes formátum: [Autó márkája] [Autó típusa])");
+    string autotipus= Console.ReadLine();
+
+    return new List<string>() {nev, ig_szam, rendszam, autotipus};
+}
+
+
+
 
 while (true)
 {
@@ -96,9 +160,19 @@ while (true)
     else if (mivel_jottel == "1")
     {
         List<string> xxx = gyalogos_belepes();
+        Console.WriteLine("Adatok rögzítve!");
         Console.WriteLine(xxx[0]);
         Console.WriteLine(xxx[1]);
 
+    }
+    else if (mivel_jottel == "2")
+    {
+        List<string> autosadatok = autos_bekeres();
+        Console.WriteLine("Adatok rögzítve!");
+        Console.WriteLine(autosadatok[0]);
+        Console.WriteLine(autosadatok[1]);
+        Console.WriteLine(autosadatok[2]);
+        Console.WriteLine(autosadatok[3]);
     }
 
 }
