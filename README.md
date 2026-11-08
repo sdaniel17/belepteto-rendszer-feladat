@@ -6,7 +6,7 @@
 
 ## A program működése 🚀
 
-- A program indításkor megkérdezi hogy mivel jött az illető vagy hogy kíván-e keresni a fájlban.
+- A program indításkor megkérdezi hogy mivel jött az illető vagy hogy kíván-e keresni a naplóban.
 
 - Attól függően hogy hogyan jött, kölönböző kérdéseket fog feltenni, ami az illető azonosítására szolgál.
 
@@ -14,7 +14,7 @@
 
 - Amennyiben keresni kíván a naplóban a felhasználó, a program megkérdezi, hogy mi alapján szeretné tenni azt.
 
-- Miután a felhasználó ezt kiválasztotta és beírta a keresés alapját, a program kilistázza azokat a sorokat amelyekben szerepel az alap.
+- A keresési szempont és a kifejezés megadása után a program megjeleníti az összes találatot.
 
 ---
 
