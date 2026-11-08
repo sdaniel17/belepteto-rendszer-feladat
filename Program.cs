@@ -5,9 +5,9 @@ Console.WriteLine("$ S.Z.S Access");
 string mivel_jott()
 {
     string x = Console.ReadLine();
-    while (x != "0" && x != "1" && x != "2")
+    while (x != "0" && x != "1" && x != "2" && x != "3")
     {
-        Console.WriteLine("Helytelen bemenet! Helyes bemenetek: leállítás -> 0 ; autó -> 1 ; gyalog -> 2");
+        Console.WriteLine("Helytelen bemenet! Helyes bemenetek: leállítás -> 0 ; autós rögzítése -> 1 ; gyalogos rögzítése -> 2 ; keresés a naplóban -> 3)");
         x = Console.ReadLine();
     }
     return x;
@@ -176,13 +176,9 @@ void file_irasa(List<string> adatok)
 
 }
 
-
-
-
-
 while (true)
 {
-    Console.WriteLine("Hogyan érkezett? (leállítás -> 0 ; autó -> 1 ; gyalog -> 2)");
+    Console.WriteLine("Mit szerene tenni? (leállítás -> 0 ; autós rögzítése -> 1 ; gyalogos rögzítése -> 2 ; keresés a naplóban -> 3)");
     string mivel_jottel = mivel_jott();
     if (mivel_jottel == "0")
     {
@@ -204,6 +200,8 @@ while (true)
         Console.WriteLine("Adatok rögzítve!");
         
     }
+    else if (mivel_jottel == "3")
+    {
 
-
+    }
 }
