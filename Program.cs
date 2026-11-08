@@ -1,4 +1,8 @@
-﻿Console.WriteLine("Üdvözöljük a rendszerünkben!");
+﻿using System.ComponentModel;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
+
+Console.WriteLine("Üdvözöljük a rendszerünkben!");
 Console.WriteLine("$ S.Z.S Access");
 
 
@@ -7,7 +11,7 @@ string mivel_jott()
     string x = Console.ReadLine();
     while (x != "0" && x != "1" && x != "2" && x != "3")
     {
-        Console.WriteLine("Helytelen bemenet! Helyes bemenetek: leállítás -> 0 ; autós rögzítése -> 1 ; gyalogos rögzítése -> 2 ; keresés a naplóban -> 3)");
+        Console.WriteLine("Helytelen bemenet! Helyes bemenetek: leállítás -> 0 ; autós rögzítése -> 1 ; gyalogos rögzítése -> 2 ; keresés a naplóban -> 3");
         x = Console.ReadLine();
     }
     return x;
@@ -173,8 +177,63 @@ void file_irasa(List<string> adatok)
         File.AppendAllText("log.txt", "\n");
     }
 
-
 }
+
+bool log_kereses_dontes_ellenorzes(string dontes)
+{
+    if (dontes != "0" && dontes != "1" && dontes != "2")
+    {
+        return false;
+    }
+
+    return true;
+}
+void log_kereses_dontes()
+{
+    Console.WriteLine("Mi alapján szeretne keresni? (név -> 0 ; igazolvány szám -> 1 ; rendszám -> 2)");
+    string dontes = Console.ReadLine();
+
+    while (!log_kereses_dontes_ellenorzes(dontes))
+    {
+        Console.WriteLine("Helytelen bemenet! Helyes bemenetek: név -> 0 ; igazolvány szám -> 1 ; rendszám -> 2");
+        dontes = Console.ReadLine();
+    }
+
+    if (dontes == "0")
+    {
+        Console.WriteLine("Írja be a nevet! Helyes formátum pl.: Lakatos Lóránt");
+        string nev = Console.ReadLine();
+
+        while (!nev_ellenorzes(nev))
+        {
+            Console.WriteLine("Helytelen formátum! Helyes formátum pl.: Lakatos Lóránt");
+            nev = Console.ReadLine();
+        }
+    }
+    else if (dontes == "1")
+    {
+        Console.WriteLine("Írja be az igazolvány számot!");
+        string ig_szam = Console.ReadLine();
+
+        while (!ig_szam_ellenorzes(ig_szam))
+        {
+            Console.WriteLine("Helytelen formátum! Helyes formátum pl.: Lakatos Lóránt");
+            ig_szam = Console.ReadLine();
+        }
+    }
+    else if (dontes == "2")
+    {
+        Console.WriteLine("Írja be a rendszámot!");
+        string rendszam = Console.ReadLine();
+
+        while (!rendszam_ellenorzes(rendszam))
+        {
+            Console.WriteLine("Helytelen formátum! Helyes formátum pl.: Lakatos Lóránt");
+            rendszam = Console.ReadLine();
+        }
+    }
+}
+
 
 while (true)
 {
@@ -198,10 +257,11 @@ while (true)
 
         file_irasa(autos_adatok);
         Console.WriteLine("Adatok rögzítve!");
-        
+
     }
     else if (mivel_jottel == "3")
     {
-
+        log_kereses_dontes();
     }
 }
+
