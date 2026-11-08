@@ -1,8 +1,4 @@
-﻿using System.ComponentModel;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography.X509Certificates;
-
-Console.WriteLine("Üdvözöljük a rendszerünkben!");
+﻿Console.WriteLine("Üdvözöljük a rendszerünkben!");
 Console.WriteLine("$ S.Z.S Access");
 
 
@@ -154,9 +150,9 @@ List<string> autos_bekeres()
 
 void file_irasa(List<string> adatok)
 {
-        try
-{
-    
+    try
+    {
+
         File.AppendAllText("log.txt", DateTime.Now.ToString());
         foreach (string nev in adatok)
         {
@@ -164,27 +160,13 @@ void file_irasa(List<string> adatok)
 
         }
         File.AppendAllText("log.txt", "\n");
-    
-        File.AppendAllText("log.txt", DateTime.Now.ToString());
-        foreach (string nev in adatok)
-        {
 
-            File.AppendAllText("log.txt", " | " + nev);
+    }
+    catch (UnauthorizedAccessException)
+    {
+        Console.WriteLine("Nincs jogosultság a fájl írásához.");
+    }
 
-        }
-        File.AppendAllText("log.txt", "\n");
-    
-
-}
-catch (FileNotFoundException)
-{
-    Console.WriteLine("A fájl nem található.");
-}
-catch (UnauthorizedAccessException)
-{
-    Console.WriteLine("Nincs jogosultság a fájl olvasásához.");
-}
-    
 
 }
 
@@ -250,24 +232,24 @@ void log_kereses_dontes()
 void kereses(string keresesiertek)
 {
     try
-{
-    foreach (string sor in File.ReadLines("log.txt"))
-{
-    
-    if (sor.Contains(keresesiertek))
+    {
+        foreach (string sor in File.ReadLines("log.txt"))
         {
-            Console.WriteLine(sor);
+
+            if (sor.Contains(keresesiertek))
+            {
+                Console.WriteLine(sor);
+            }
         }
-}
-}
-catch (FileNotFoundException)
-{
-    Console.WriteLine("A fájl nem található.");
-}
-catch (UnauthorizedAccessException)
-{
-    Console.WriteLine("Nincs jogosultság a fájl olvasásához.");
-}
+    }
+    catch (FileNotFoundException)
+    {
+        Console.WriteLine("A fájl nem található.");
+    }
+    catch (UnauthorizedAccessException)
+    {
+        Console.WriteLine("Nincs jogosultság a fájl olvasásához.");
+    }
 
 }
 
