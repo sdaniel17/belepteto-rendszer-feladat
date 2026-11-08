@@ -154,8 +154,9 @@ List<string> autos_bekeres()
 
 void file_irasa(List<string> adatok)
 {
-    if (File.Exists("log.txt"))
-    {
+        try
+{
+    
         File.AppendAllText("log.txt", DateTime.Now.ToString());
         foreach (string nev in adatok)
         {
@@ -163,10 +164,7 @@ void file_irasa(List<string> adatok)
 
         }
         File.AppendAllText("log.txt", "\n");
-    }
-    else
-    {
-        using StreamWriter iro = new("log.txt");
+    
         File.AppendAllText("log.txt", DateTime.Now.ToString());
         foreach (string nev in adatok)
         {
@@ -175,7 +173,18 @@ void file_irasa(List<string> adatok)
 
         }
         File.AppendAllText("log.txt", "\n");
-    }
+    
+
+}
+catch (FileNotFoundException)
+{
+    Console.WriteLine("A fájl nem található.");
+}
+catch (UnauthorizedAccessException)
+{
+    Console.WriteLine("Nincs jogosultság a fájl olvasásához.");
+}
+    
 
 }
 
@@ -209,6 +218,7 @@ void log_kereses_dontes()
             Console.WriteLine("Helytelen formátum! Helyes formátum pl.: Lakatos Lóránt");
             nev = Console.ReadLine();
         }
+        kereses(nev);
     }
     else if (dontes == "1")
     {
@@ -217,9 +227,10 @@ void log_kereses_dontes()
 
         while (!ig_szam_ellenorzes(ig_szam))
         {
-            Console.WriteLine("Helytelen formátum! Helyes formátum pl.: Lakatos Lóránt");
+            Console.WriteLine("Helytelen formátum! Helyes formátum: IG-00000000");
             ig_szam = Console.ReadLine();
         }
+        kereses(ig_szam);
     }
     else if (dontes == "2")
     {
@@ -228,11 +239,38 @@ void log_kereses_dontes()
 
         while (!rendszam_ellenorzes(rendszam))
         {
-            Console.WriteLine("Helytelen formátum! Helyes formátum pl.: Lakatos Lóránt");
+            Console.WriteLine("Helytelen formátum! Helyes formátumok: AAA-999 ; AA-AA-999");
             rendszam = Console.ReadLine();
         }
+        kereses(rendszam);
     }
 }
+
+
+void kereses(string keresesiertek)
+{
+    try
+{
+    foreach (string sor in File.ReadLines("log.txt"))
+{
+    
+    if (sor.Contains(keresesiertek))
+        {
+            Console.WriteLine(sor);
+        }
+}
+}
+catch (FileNotFoundException)
+{
+    Console.WriteLine("A fájl nem található.");
+}
+catch (UnauthorizedAccessException)
+{
+    Console.WriteLine("Nincs jogosultság a fájl olvasásához.");
+}
+
+}
+
 
 
 while (true)
