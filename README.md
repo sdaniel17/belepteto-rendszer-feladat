@@ -63,5 +63,5 @@ Mi alapján szeretne keresni? (név -> 0 ; igazolvány szám -> 1 ; rendszám ->
 
 | IG-12345678
 
-| 2026. 11. 08. 21:20:42 | Tóth Tamás | IG-12345678 | HZT-756 | Audi R8
+2026. 11. 08. 21:20:42 | Tóth Tamás | IG-12345678 | HZT-756 | Audi R8
 ```
