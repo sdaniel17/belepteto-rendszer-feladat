@@ -9,18 +9,18 @@
 
 - Indításkor öt opció közül lehet választani: gyalogos beléptetése, autós beléptetése, keresés a naplóban, kilépés rögzítése, valamint a program leállítása.
 
-- A gyalogos vagy autós rögzítése kiválasztása után attól függően hogy hogyan jött, kölönböző kérdéseket fog feltenni, ami az illető azonosítására szolgál.
+- A kiválasztott belépési mód alapján bekéri a szükséges azonosító adatokat. Ha a személy vagy jármű már bent tartózkodik, nem rögzíthető újra.
 
-- A kérdésekre adott válaszokat elmenti egy log.txt fájlba a belépés idejével együtt. Ezeket elmenti egy tartozkodas.txt-be is, amelynek az a feladata hogy nyilvántartsa az épületben tartózkodókat. Hogyha egy személyt kilépés nélkül szeretnénk rögzíteni úgy hogy már rögzítve van, a program nem fogja engedni.
+- A sikeres belépést a pontos időponttal együtt elmenti a log.txt-be (tényleges napló) és a tartozkodas.txt-be (aktuálisan bent lévők) fájlokba.
 
-- Amennyiben keresni kíván a naplóban a felhasználó, a program megkérdezi, hogy mi alapján szeretné tenni azt.
+- Naplókeresésnél a választott szempont és keresőszó alapján kilistázza az egyező bejegyzéseket a log.txt fájlból (ha nincs találat, külön jelzi).
 
-- A keresési szempont és a kifejezés megadása után a program megjeleníti az összes találatot. Hogyha nem talált a naplóban egyezést, kiírja hogy nincs találat!
+- Kilépés rögzítésénél törli az illetőt a tartozkodas.txt nyilvántartásból, de a log.txt megőrzi a belépés előzményét.
 
-- A programban elérhető egy "kilépés rögzítése" opció, amelyet akkor kell használni, ha egy személy elhagyja az épületet. Ez a log.txt-ből nem törli ki a bejegyzést, csak a tartozkodas.txt nyilvántartásból.
+- A program szigorúan ellenőrzi a bevitt adatokat. Hibás formátum megadása esetén hibaüzenetet jelenít meg, és mindaddig újra kéri az adatot, amíg az nem felel meg a formátumnak.
 ---
 
-## Használati útmutató
+## Használati útmutató ✅
 
 Az alkalmazás indításakor az alábbi 5 menüpont közül lehet választani a megfelelő szám beírásával.
 
@@ -40,7 +40,7 @@ Az alkalmazás indításakor az alábbi 5 menüpont közül lehet választani a 
 Üdvözöljük a rendszerünkben!
 $ S.Z.S Access
 
-Mit szerene tenni? (leállítás -> 0 ; autós rögzítése -> 1 ; gyalogos rögzítése -> 2 ; keresés a naplóban -> 3)
+Mit szerene tenni? (leállítás -> 0 ; autós rögzítése -> 1 ; gyalogos rögzítése -> 2 ; keresés a naplóban -> 3 ; kilépés rögzítése -> 4)
 
 | 1 
 
@@ -67,7 +67,7 @@ Adatok rögzítve!
 ## Példa keresésre 🔍
 
 ```bash
-Mit szerene tenni? (leállítás -> 0 ; autós rögzítése -> 1 ; gyalogos rögzítése -> 2 ; keresés a naplóban -> 3)
+Mit szerene tenni? (leállítás -> 0 ; autós rögzítése -> 1 ; gyalogos rögzítése -> 2 ; keresés a naplóban -> 3 ; kilépés rögzítése -> 4)
 
 | 3
 
@@ -80,4 +80,22 @@ Mi alapján szeretne keresni? (név -> 0 ; igazolvány szám -> 1 ; rendszám ->
 | IG-12345678
 
 2026. 11. 08. 21:20:42 | Tóth Tamás | IG-12345678 | HZT-756 | Audi R8
+```
+
+## Példa kilépés rögzítésére ❌
+
+```bash
+Mit szerene tenni? (leállítás -> 0 ; autós rögzítése -> 1 ; gyalogos rögzítése -> 2 ; keresés a naplóban -> 3 ; kilépés rögzítése -> 4)
+
+| 4
+
+Mi alapján szeretné a kilépő személyt azonosítani? (igazolványszám -> 0 ; rendszám -> 1)
+
+| 0
+
+Írja be az igazolványszámát! (Helyes formátum: IG-00000000)
+
+| IG-12345678
+
+A kilépés rögzítve!
 ```
