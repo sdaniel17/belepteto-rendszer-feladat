@@ -5,9 +5,9 @@ Console.WriteLine("$ S.Z.S Access");
 string mivel_jott()
 {
     string x = Console.ReadLine();
-    while (x != "0" && x != "1" && x != "2" && x != "3")
+    while (x != "0" && x != "1" && x != "2" && x != "3" && x != "4")
     {
-        Console.WriteLine("Helytelen bemenet! Helyes bemenetek: leállítás -> 0 ; autós rögzítése -> 1 ; gyalogos rögzítése -> 2 ; keresés a naplóban -> 3");
+        Console.WriteLine("Helytelen bemenet! Helyes bemenetek: leállítás -> 0 ; autós rögzítése -> 1 ; gyalogos rögzítése -> 2 ; keresés a naplóban -> 3 ; kilépés rögzítése -> 4");
         x = Console.ReadLine();
     }
     return x;
@@ -124,20 +124,47 @@ List<string> gyalogos_belepes()
         ig_szam = Console.ReadLine();
     }
 
-    return new List<string>() { nev, ig_szam };
+    foreach (string sor in File.ReadLines("tartozkodas.txt"))
+    {
+        if (sor.Contains(ig_szam))
+        { 
+
+            Console.WriteLine("Már tartózkodik egy ilyen igazolványszámú ember az épületben!");
+            return new();
+        }
+    }
+
+
+        return new List<string>() { nev, ig_szam };
 }
 
 List<string> autos_bekeres()
 {
     List<string> adatok = gyalogos_belepes();
+
+    if (adatok.Count == 0)
+    {
+        return new List<string>();
+    }
+
     string nev = adatok[0];
     string ig_szam = adatok[1];
+
     Console.WriteLine("Írja be autója rendszámát! (Helyes formátumok: AAA-999 ; AA-AA-999)");
     string rendszam = Console.ReadLine();
     while (!rendszam_ellenorzes(rendszam))
     {
         Console.WriteLine("Helytelen rendszám! Helyes formátumok: AAA-999 ; AA-AA-999");
         rendszam = Console.ReadLine();
+    }
+
+    foreach (string sor in File.ReadLines("tartozkodas.txt"))
+    {
+        if (sor.Contains(rendszam))
+        {
+            Console.WriteLine("Már tartózkodik egy ilyen rendszámú autó az épületben!");
+            return new();
+        }
     }
 
 
@@ -152,6 +179,11 @@ void file_irasa(List<string> adatok)
 {
     try
     {
+        if (adatok.Count == 0)
+        {
+            return;
+        }
+        else { 
 
         File.AppendAllText("log.txt", DateTime.Now.ToString());
         foreach (string nev in adatok)
@@ -161,12 +193,21 @@ void file_irasa(List<string> adatok)
         }
         File.AppendAllText("log.txt", "\n");
 
+        File.AppendAllText("tartozkodas.txt", DateTime.Now.ToString());
+        foreach (string nev in adatok)
+        {
+            File.AppendAllText("tartozkodas.txt", " | " + nev);
+
+        }
+        File.AppendAllText("tartozkodas.txt", "\n");
+        }
+
+        Console.WriteLine("Adatok rögzítve!");
     }
     catch (UnauthorizedAccessException)
     {
         Console.WriteLine("Nincs jogosultság a fájl írásához.");
     }
-
 
 }
 
@@ -231,6 +272,7 @@ void log_kereses_dontes()
 
 void kereses(string keresesiertek)
 {
+    bool van = false;
     try
     {
         foreach (string sor in File.ReadLines("log.txt"))
@@ -238,9 +280,16 @@ void kereses(string keresesiertek)
 
             if (sor.Contains(keresesiertek))
             {
+                van = true;
                 Console.WriteLine(sor);
             }
         }
+
+        if (van == false)
+        {
+            Console.WriteLine("Nincs találat!");
+        }
+
     }
     catch (FileNotFoundException)
     {
@@ -253,11 +302,86 @@ void kereses(string keresesiertek)
 
 }
 
+bool kilepes_dontes_ellenorzes(string dontes)
+{
+    if (dontes != "0" && dontes != "1") 
+    {
+        return false;
+    }
+    return true;
+}
+string kilepes_dontes()
+{
+    Console.WriteLine("Mi alapján szeretné a kilépő személyt azonosítani? (igazolványszám -> 0 ; rendszám -> 1)");
+    string dontes = Console.ReadLine();
+    while (!kilepes_dontes_ellenorzes(dontes))
+    {
+        Console.WriteLine("Helytelen bemenet! Helyes bemenetek: igazolványszám -> 0 ; rendszám -> 1");
+        dontes = Console.ReadLine();
+    }
+
+    if (dontes == "0")
+    {
+        Console.WriteLine("Írja be az igazolványszámát! (Helyes formátum: IG-00000000");
+        string ig_szam = Console.ReadLine();
+        while (!ig_szam_ellenorzes(ig_szam))
+        {
+            Console.WriteLine("Helytelen formátum! Helyes formátum: IG-00000000");
+            ig_szam = Console.ReadLine();
+        }
+        dontes = ig_szam;
+    }
+    else if (dontes == "1")
+    {
+        Console.WriteLine("Írja be autója rendszámát! (Helyes formátumok: AAA-999 ; AA-AA-999)");
+        string rendszam = Console.ReadLine();
+        while (!rendszam_ellenorzes(rendszam))
+        {
+            Console.WriteLine("Helytelen rendszám! Helyes formátumok: AAA-999 ; AA-AA-999");
+            rendszam = Console.ReadLine();
+        }
+        dontes = rendszam;
+    }
+
+    return dontes;
+}
+
+void kilepes(string dontes)
+{
+    bool van = false;
+
+    string[] eredeti_sorok = File.ReadAllLines("tartozkodas.txt");
+
+    List<string> megmaradt_sorok = new();
+
+    foreach (string sor in File.ReadLines("tartozkodas.txt"))
+    {
+        if (sor.Contains(dontes))
+        {
+            van = true;
+        }
+        else
+        {
+            megmaradt_sorok.Add(sor);
+        }
+    }
+
+    if (!van)
+    {
+        Console.WriteLine("Nem tartózkodik ilyen azonosítójú ember az épületben!");
+        return;
+    }
+
+    File.WriteAllLines("tartozkodas.txt", megmaradt_sorok);
+
+    Console.WriteLine("A kilépés rögzítve!");
+}
+
 
 
 while (true)
 {
-    Console.WriteLine("Mit szerene tenni? (leállítás -> 0 ; autós rögzítése -> 1 ; gyalogos rögzítése -> 2 ; keresés a naplóban -> 3)");
+    Console.WriteLine("Mit szerene tenni? (leállítás -> 0 ; autós rögzítése -> 1 ; gyalogos rögzítése -> 2 ; keresés a naplóban -> 3 ; kilépés rögzítése -> 4)");
     string mivel_jottel = mivel_jott();
     if (mivel_jottel == "0")
     {
@@ -267,7 +391,6 @@ while (true)
     {
         List<string> gyalogos_adatok = gyalogos_belepes();
         file_irasa(gyalogos_adatok);
-        Console.WriteLine("Adatok rögzítve!");
 
 
     }
@@ -276,12 +399,16 @@ while (true)
         List<string> autos_adatok = autos_bekeres();
 
         file_irasa(autos_adatok);
-        Console.WriteLine("Adatok rögzítve!");
+
 
     }
     else if (mivel_jottel == "3")
     {
         log_kereses_dontes();
+    }
+    else if (mivel_jottel == "4")
+    {
+        kilepes(kilepes_dontes());
     }
 }
 
