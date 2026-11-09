@@ -1,6 +1,8 @@
 ﻿Console.WriteLine("Üdvözöljük a rendszerünkben!");
 Console.WriteLine("$ S.Z.S Access");
 
+File.AppendAllText("tartozkodas.txt", "");
+File.AppendAllText("log.txt", "");
 
 string mivel_jott()
 {
@@ -66,8 +68,6 @@ bool rendszam_ellenorzes(string rendszam)
     if (rendszam == null)
         return false;
 
-    rendszam = rendszam.ToUpper();
-
 
     if (rendszam.Length == 7 &&
         char.IsLetter(rendszam[0]) &&
@@ -127,7 +127,7 @@ List<string> gyalogos_belepes()
     foreach (string sor in File.ReadLines("tartozkodas.txt"))
     {
         if (sor.Contains(ig_szam))
-        { 
+        {
 
             Console.WriteLine("Már tartózkodik egy ilyen igazolványszámú ember az épületben!");
             return new();
@@ -135,7 +135,7 @@ List<string> gyalogos_belepes()
     }
 
 
-        return new List<string>() { nev, ig_szam };
+    return new List<string>() { nev, ig_szam };
 }
 
 List<string> autos_bekeres()
@@ -151,22 +151,23 @@ List<string> autos_bekeres()
     string ig_szam = adatok[1];
 
     Console.WriteLine("Írja be autója rendszámát! (Helyes formátumok: AAA-999 ; AA-AA-999)");
-    string rendszam = Console.ReadLine();
-    while (!rendszam_ellenorzes(rendszam))
+    string rendszam = Console.ReadLine().ToUpper();
+
+    while(!rendszam_ellenorzes(rendszam))
     {
         Console.WriteLine("Helytelen rendszám! Helyes formátumok: AAA-999 ; AA-AA-999");
-        rendszam = Console.ReadLine();
+        rendszam = Console.ReadLine().ToUpper();
     }
 
-    foreach (string sor in File.ReadLines("tartozkodas.txt"))
-    {
-        if (sor.Contains(rendszam))
+
+        foreach (string sor in File.ReadLines("tartozkodas.txt"))
         {
-            Console.WriteLine("Már tartózkodik egy ilyen rendszámú autó az épületben!");
-            return new();
+            if (sor.Contains(rendszam))
+            {
+                Console.WriteLine("Már tartózkodik egy ilyen rendszámú autó az épületben!");
+                return new();
+            }
         }
-    }
-
 
     Console.WriteLine("Írja be autója típusát! (Helyes formátum: [Autó márkája] [Autó típusa])");
     string autotipus = Console.ReadLine();
@@ -183,23 +184,24 @@ void file_irasa(List<string> adatok)
         {
             return;
         }
-        else { 
-
-        File.AppendAllText("log.txt", DateTime.Now.ToString());
-        foreach (string nev in adatok)
+        else
         {
-            File.AppendAllText("log.txt", " | " + nev);
 
-        }
-        File.AppendAllText("log.txt", "\n");
+            File.AppendAllText("log.txt", DateTime.Now.ToString());
+            foreach (string nev in adatok)
+            {
+                File.AppendAllText("log.txt", " | " + nev);
 
-        File.AppendAllText("tartozkodas.txt", DateTime.Now.ToString());
-        foreach (string nev in adatok)
-        {
-            File.AppendAllText("tartozkodas.txt", " | " + nev);
+            }
+            File.AppendAllText("log.txt", "\n");
 
-        }
-        File.AppendAllText("tartozkodas.txt", "\n");
+            File.AppendAllText("tartozkodas.txt", DateTime.Now.ToString());
+            foreach (string nev in adatok)
+            {
+                File.AppendAllText("tartozkodas.txt", " | " + nev);
+
+            }
+            File.AppendAllText("tartozkodas.txt", "\n");
         }
 
         Console.WriteLine("Adatok rögzítve!");
@@ -258,12 +260,12 @@ void log_kereses_dontes()
     else if (dontes == "2")
     {
         Console.WriteLine("Írja be a rendszámot!");
-        string rendszam = Console.ReadLine();
+        string rendszam = Console.ReadLine().ToUpper();
 
         while (!rendszam_ellenorzes(rendszam))
         {
             Console.WriteLine("Helytelen formátum! Helyes formátumok: AAA-999 ; AA-AA-999");
-            rendszam = Console.ReadLine();
+            rendszam = Console.ReadLine().ToUpper();
         }
         kereses(rendszam);
     }
@@ -304,7 +306,7 @@ void kereses(string keresesiertek)
 
 bool kilepes_dontes_ellenorzes(string dontes)
 {
-    if (dontes != "0" && dontes != "1") 
+    if (dontes != "0" && dontes != "1")
     {
         return false;
     }
@@ -334,11 +336,11 @@ string kilepes_dontes()
     else if (dontes == "1")
     {
         Console.WriteLine("Írja be autója rendszámát! (Helyes formátumok: AAA-999 ; AA-AA-999)");
-        string rendszam = Console.ReadLine();
+        string rendszam = Console.ReadLine().ToUpper();
         while (!rendszam_ellenorzes(rendszam))
         {
             Console.WriteLine("Helytelen rendszám! Helyes formátumok: AAA-999 ; AA-AA-999");
-            rendszam = Console.ReadLine();
+            rendszam = Console.ReadLine().ToUpper();
         }
         dontes = rendszam;
     }
@@ -350,23 +352,21 @@ void kilepes(string dontes)
 {
     bool van = false;
 
-    string[] eredeti_sorok = File.ReadAllLines("tartozkodas.txt");
-
     List<string> megmaradt_sorok = new();
 
-    foreach (string sor in File.ReadLines("tartozkodas.txt"))
-    {
-        if (sor.Contains(dontes))
+        foreach (string sor in File.ReadLines("tartozkodas.txt"))
         {
-            van = true;
+        if (sor.Contains($"{dontes}"))
+            {
+                van = true;
+            }
+            else
+            {
+                megmaradt_sorok.Add(sor);
+            }
         }
-        else
-        {
-            megmaradt_sorok.Add(sor);
-        }
-    }
 
-    if (!van)
+        if (!van)
     {
         Console.WriteLine("Nem tartózkodik ilyen azonosítójú ember az épületben!");
         return;
