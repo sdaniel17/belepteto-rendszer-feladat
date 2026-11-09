@@ -6,17 +6,33 @@
 
 ## A program működése 🚀
 
-- A program indításkor megkérdezi hogy mivel jött az illető vagy hogy kíván-e keresni a naplóban.
 
-- Attól függően hogy hogyan jött, kölönböző kérdéseket fog feltenni, ami az illető azonosítására szolgál.
+- Indításkor öt opció közül lehet választani: gyalogos beléptetése, autós beléptetése, keresés a naplóban, kilépés rögzítése, valamint a program leállítása.
 
-- A kérdésekre adott válaszokat elmenti egy TXT fájlba a belépés idejével együtt.
+- A gyalogos vagy autós rögzítése kiválasztása után attól függően hogy hogyan jött, kölönböző kérdéseket fog feltenni, ami az illető azonosítására szolgál.
+
+- A kérdésekre adott válaszokat elmenti egy log.txt fájlba a belépés idejével együtt. Ezeket elmenti egy tartozkodas.txt-be is, amelynek az a feladata hogy nyilvántartsa az épületben tartózkodókat. Hogyha egy személyt kilépés nélkül szeretnénk rögzíteni úgy hogy már rögzítve van, a program nem fogja engedni.
 
 - Amennyiben keresni kíván a naplóban a felhasználó, a program megkérdezi, hogy mi alapján szeretné tenni azt.
 
-- A keresési szempont és a kifejezés megadása után a program megjeleníti az összes találatot.
+- A keresési szempont és a kifejezés megadása után a program megjeleníti az összes találatot. Hogyha nem talált a naplóban egyezést, kiírja hogy nincs találat!
 
+- A programban elérhető egy "kilépés rögzítése" opció, amelyet akkor kell használni, ha egy személy elhagyja az épületet. Ez a log.txt-ből nem törli ki a bejegyzést, csak a tartozkodas.txt nyilvántartásból.
 ---
+
+## Használati útmutató
+
+Az alkalmazás indításakor az alábbi 5 menüpont közül lehet választani a megfelelő szám beírásával.
+
+| Menüpont | Művelet | Leírás |
+| :---: | :--- | :--- |
+| **`0`** | **Leállítás** | Kilépés a programból. |
+| **`1`** | **Autós rögzítése** | Gépjárművel érkező személy beléptetése. |
+| **`2`** | **Gyalogos rögzítése** | Gyalogosan érkező személy beléptetése. |
+| **`3`** | **Keresés a naplóban** | Keresés a `log.txt` eseménynaplóban. |
+| **`4`** | **Kilépés rögzítése** | Bent tartózkodó személy vagy jármű távozásának rögzítése. |
+
+
 
 ## Példa rögzítésre 🚚
 
