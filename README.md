@@ -27,8 +27,8 @@ Az alkalmazás indításakor az alábbi 5 menüpont közül lehet választani a 
 | Menüpont | Művelet | Leírás |
 | :---: | :--- | :--- |
 | **`0`** | **Leállítás** | Kilépés a programból. |
-| **`1`** | **Autós rögzítése** | Gépjárművel érkező személy beléptetése. |
-| **`2`** | **Gyalogos rögzítése** | Gyalogosan érkező személy beléptetése. |
+| **`1`** | **Autós rögzítése** | Autóval érkező személy beléptetése. |
+| **`2`** | **Gyalogos rögzítése** | Gyalog érkező személy beléptetése. |
 | **`3`** | **Keresés a naplóban** | Keresés a `log.txt` eseménynaplóban. |
 | **`4`** | **Kilépés rögzítése** | Bent tartózkodó személy vagy jármű távozásának rögzítése. |
 
